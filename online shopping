@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoParts Pro - Spare Parts Shopping</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .cart-bounce { animation: bounce 0.3s ease-in-out; }
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-blue-900 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-blue-700 p-2 rounded-lg">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 15a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2v12z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold">AutoParts Pro</h1>
+                        <p class="text-blue-200 text-sm">Quality Spare Parts</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="cartBtn" class="relative bg-blue-700 hover:bg-blue-600 px-4 py-2 rounded-lg transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M7 4V2a1 1 0 0 1 2 0v2h6V2a1 1 0 0 1 2 0v2h1a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1zm0 2H6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1v1a1 1 0 0 1-2 0V6H9v1a1 1 0 0 1-2 0V6z"/>
+                        </svg>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search and Filters -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row gap-4 items-center">
+                <div class="flex-1 relative">
+                    <input id="searchInput" type="text" placeholder="Search spare parts..." 
+                           class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <svg class="absolute left-3 top-3.5 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M21.71 20.29l-3.4-3.39A9 9 0 1 0 16.9 18.3l3.4 3.39a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM11 18a7 7 0 1 1 7-7 7 7 0 0 1-7 7z"/>
+                    </svg>
+                </div>
+                <select id="categoryFilter" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    <option value="">All Categories</option>
+                    <option value="engine">Engine Parts</option>
+                    <option value="brake">Brake System</option>
+                    <option value="electrical">Electrical</option>
+                    <option value="suspension">Suspension</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Products Grid -->
+            <div class="flex-1">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-800">Spare Parts</h2>
+                    <span id="resultCount" class="text-gray-600">12 products found</span>
+                </div>
+                
+                <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Products will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Shopping Cart Sidebar -->
+            <div class="lg:w-80">
+                <div class="bg-white rounded-lg shadow-lg p-6 sticky top-4">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M7 4V2a1 1 0 0 1 2 0v2h6V2a1 1 0 0 1 2 0v2h1a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1z"/>
+                        </svg>
+                        Shopping Cart
+                    </h3>
+                    
+                    <div id="cartItems" class="space-y-3 mb-4 max-h-60 overflow-y-auto">
+                        <p class="text-gray-500 text-center py-8">Your cart is empty</p>
+                    </div>
+                    
+                    <div class="border-t pt-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="font-semibold">Total:</span>
+                            <span id="cartTotal" class="text-xl font-bold text-blue-600">$0.00</span>
+                        </div>
+                        <button id="checkoutBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors disabled:bg-gray-300" disabled>
+                            Proceed to Checkout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample spare parts data
+        const spareParts = [
+            { id: 1, name: "Brake Pads Set", category: "brake", price: 89.99, image: "🔧", description: "High-quality ceramic brake pads", stock: 15 },
+            { id: 2, name: "Oil Filter", category: "engine", price: 24.99, image: "⚙️", description: "Premium engine oil filter", stock: 25 },
+            { id: 3, name: "Spark Plugs (4-pack)", category: "engine", price: 45.99, image: "⚡", description: "Iridium spark plugs for better performance", stock: 12 },
+            { id: 4, name: "Headlight Bulb", category: "electrical", price: 19.99, image: "💡", description: "LED headlight replacement bulb", stock: 30 },
+            { id: 5, name: "Air Filter", category: "engine", price: 32.99, image: "🌪️", description: "High-flow air filter", stock: 18 },
+            { id: 6, name: "Shock Absorber", category: "suspension", price: 129.99, image: "🔩", description: "Heavy-duty shock absorber", stock: 8 },
+            { id: 7, name: "Battery", category: "electrical", price: 159.99, image: "🔋", description: "12V automotive battery", stock: 10 },
+            { id: 8, name: "Brake Disc", category: "brake", price: 79.99, image: "⭕", description: "Ventilated brake disc rotor", stock: 14 },
+            { id: 9, name: "Timing Belt", category: "engine", price: 67.99, image: "🔗", description: "Reinforced timing belt", stock: 20 },
+            { id: 10, name: "Wiper Blades", category: "electrical", price: 29.99, image: "🧽", description: "All-weather wiper blades", stock: 22 },
+            { id: 11, name: "Fuel Pump", category: "engine", price: 199.99, image: "⛽", description: "Electric fuel pump assembly", stock: 6 },
+            { id: 12, name: "Suspension Spring", category: "suspension", price: 89.99, image: "🌀", description: "Coil spring for suspension", stock: 16 }
+        ];
+
+        let cart = [];
+        let filteredParts = [...spareParts];
+
+        // DOM elements
+        const productsGrid = document.getElementById('productsGrid');
+        const cartItems = document.getElementById('cartItems');
+        const cartCount = document.getElementById('cartCount');
+        const cartTotal = document.getElementById('cartTotal');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const resultCount = document.getElementById('resultCount');
+
+        // Render products
+        function renderProducts() {
+            productsGrid.innerHTML = filteredParts.map(part => `
+                <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
+                    <div class="text-center mb-4">
+                        <div class="text-4xl mb-2">${part.image}</div>
+                        <h3 class="font-semibold text-lg text-gray-800">${part.name}</h3>
+                        <p class="text-gray-600 text-sm mt-1">${part.description}</p>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl font-bold text-blue-600">$${part.price}</span>
+                        <span class="text-sm text-gray-500">${part.stock} in stock</span>
+                    </div>
+                    <button onclick="addToCart(${part.id})" 
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium transition-colors">
+                        Add to Cart
+                    </button>
+                </div>
+            `).join('');
+            
+            resultCount.textContent = `${filteredParts.length} products found`;
+        }
+
+        // Add to cart
+        function addToCart(partId) {
+            const part = spareParts.find(p => p.id === partId);
+            const existingItem = cart.find(item => item.id === partId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...part, quantity: 1 });
+            }
+            
+            updateCart();
+            
+            // Add bounce animation to cart button
+            const cartBtn = document.getElementById('cartBtn');
+            cartBtn.classList.add('cart-bounce');
+            setTimeout(() => cartBtn.classList.remove('cart-bounce'), 300);
+        }
+
+        // Remove from cart
+        function removeFromCart(partId) {
+            cart = cart.filter(item => item.id !== partId);
+            updateCart();
+        }
+
+        // Update cart display
+        function updateCart() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            cartCount.textContent = totalItems;
+            cartTotal.textContent = `$${totalPrice.toFixed(2)}`;
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-gray-500 text-center py-8">Your cart is empty</p>';
+                checkoutBtn.disabled = true;
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl">${item.image}</span>
+                            <div>
+                                <p class="font-medium text-sm">${item.name}</p>
+                                <p class="text-gray-600 text-xs">$${item.price} × ${item.quantity}</p>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" 
+                                class="text-red-500 hover:text-red-700 text-sm">
+                            Remove
+                        </button>
+                    </div>
+                `).join('');
+                checkoutBtn.disabled = false;
+            }
+        }
+
+        // Filter products
+        function filterProducts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            
+            filteredParts = spareParts.filter(part => {
+                const matchesSearch = part.name.toLowerCase().includes(searchTerm) || 
+                                    part.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = !selectedCategory || part.category === selectedCategory;
+                
+                return matchesSearch && matchesCategory;
+            });
+            
+            renderProducts();
+        }
+
+        // Checkout function
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            alert(`Thank you for your order!\n\nOrder Summary:\n${cart.map(item => `${item.name} × ${item.quantity} = $${(item.price * item.quantity).toFixed(2)}`).join('\n')}\n\nTotal: $${total.toFixed(2)}\n\nThis is a demo - no actual payment processed.`);
+            
+            cart = [];
+            updateCart();
+        }
+
+        // Event listeners
+        searchInput.addEventListener('input', filterProducts);
+        categoryFilter.addEventListener('change', filterProducts);
+        checkoutBtn.addEventListener('click', checkout);
+
+        // Initial render
+        renderProducts();
+        updateCart();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97929e7b22be465e',t:'MTc1Njg3NDk1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
